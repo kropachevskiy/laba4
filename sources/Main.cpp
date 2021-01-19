@@ -5,8 +5,7 @@
 
 int main(int argc, char *argv[]) {
   std::string path;
-  /* g++ -Wall -0 hello hello.cpp  */
-  /* ~$ ./hello путь_до_директории */
+
   if (argc == 1) {
     path = ".";
 
@@ -15,5 +14,5 @@ int main(int argc, char *argv[]) {
   }
   Directory_Parser Parser{path};
   Parser.Files_For_Acc();
-  std::cout<<Parser.Print();
+  std::cout<<Parser;
 }

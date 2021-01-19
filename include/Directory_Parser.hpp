@@ -9,7 +9,7 @@
 #include "regex"
 #include "set"
 #include "string"
-                                            /* b  a  l  a  n  c  e  _   0  0  0  0  1  2  3  4 */
+
 const std::regex Regular_Exp("^(balance_)\\d\\d\\d\\d\\d\\d\\d\\d_\\d\\d\\d\\d\\d\\d\\d\\d");
 
 class Directory_Parser{
@@ -21,7 +21,7 @@ class Directory_Parser{
  public:
   explicit Directory_Parser(std::string);
   void Files_For_Acc();
-  std::string Print();
+  friend std::ostream & operator << (std::ostream & out, Directory_Parser& a);
 
 };
 

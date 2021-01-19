@@ -12,14 +12,14 @@ Directory_Parser::Directory_Parser(std::string path_For_Parser) {
          itEntry != boost::filesystem::recursive_directory_iterator(); ++itEntry)
     {
       if (boost::filesystem::is_regular_file(itEntry->path())) {
-        /* balance_00001234_20181001.old.txt */
+
         if ((itEntry->path().stem().extension() == "")) {
-          /* balance_00001234_20181001.txt */
+
           if (itEntry->path().extension() == ".txt") {
-            /*balance_00001234                                   , balance_\\d\\d\\d\\d\\d\\d\\d\\d*/
+
             if (std::regex_search(itEntry->path().stem().string(), Regular_Exp)) {
               Files.push_back(itEntry->path());
-              /* /home/.../bcs/balance_00001234_20181001.txt */
+
               Accounts_Strings.insert(itEntry->path().stem().string().substr(8, 8));
             }
           }
@@ -30,14 +30,14 @@ Directory_Parser::Directory_Parser(std::string path_For_Parser) {
         for (auto itEntrySymLink = boost::filesystem::recursive_directory_iterator(itEntry->path());
              itEntrySymLink != boost::filesystem::recursive_directory_iterator(); ++itEntrySymLink) {
           if (boost::filesystem::is_regular_file(itEntry->path())) {
-            /* balance_00001234_20181001.old.txt */
+
             if ((itEntry->path().stem().extension() == "")) {
-              /* balance_00001234_20181001.txt */
+
               if (itEntry->path().extension() == ".txt") {
-                /*balance_00001234                                   , balance_\\d\\d\\d\\d\\d\\d\\d\\d*/
+
                 if (std::regex_search(itEntry->path().stem().string(),Regular_Exp)) {
                   Files.push_back(itEntry->path());
-                  /* /home/.../bcs/balance_00001234_20181001.txt */
+
                   Accounts_Strings.insert(itEntry->path().stem().string().substr(8, 8));
                 }
               }
@@ -72,17 +72,17 @@ void Directory_Parser::Files_For_Acc() {
   }
 }
 
-std::string Directory_Parser::Print() {
-  std::stringstream ss;
-  for (auto file : Files) {
-    ss << file.parent_path().filename().string() << "\t" << file.filename().string() << "\n";
-          /* bcs                                            balance_00122223_20181010.txt */
+std::ostream & operator << (std::ostream & out, Directory_Parser& invest){
+
+  for (auto file : invest.Files) {
+    out << file.parent_path().filename().string() << "\t" << file.filename().string() << "\n";
+
   }
-  for (auto acc : Accounts) {
-    ss << "broker:" << acc.Get_Brocker() << "\t" << "account:" << acc.Get_Account_Number() << "\t"
-       /*  broker:     ib                            account:     00100001              */
+  for (auto acc : invest.Accounts) {
+    out << "broker:" << acc.Get_Brocker() << "\t" << "account:" << acc.Get_Account_Number() << "\t"
+
        << "files:" << acc.Get_File_Sum() << "\t" << "lastdate:" << acc.Get_Last_Date() << "\n";
-       /*  files:     48                             lastdate:     20181018            */
+
   }
-  return ss.str();
+  return out;
 }
